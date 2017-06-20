@@ -1,7 +1,5 @@
 # FILE CHOOSER for Ionic 3
 
-Swipeable tabs that can be your main navigation, or just a part of your page.
-
 To see this in action, checkout the [example project here](https://github.com/edu526/cs-file-chooser-example).
 
 
