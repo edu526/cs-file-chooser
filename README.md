@@ -1,7 +1,5 @@
 # FILE CHOOSER for Ionic 3
 
-Swipeable tabs that can be your main navigation, or just a part of your page.
-
 To see this in action, checkout the [example project here](https://github.com/edu526/cs-file-chooser-example).
 
 
@@ -47,7 +45,6 @@ export class AppModule {}
 openCsFileChoooser(options?: ICsOptionsFile): Observable<String[]>
 ```
 #### OPTIONS
-Set the badge value for a file chooser.
 
 _(optional)_ Advanced configuration.
 
@@ -126,3 +123,7 @@ export class TestPage {
 
 ## Support this project
 If you find this project useful, please star the repo to let people know that it's reliable. Also, share it with friends and colleagues that might find this useful as well. Thank you :smile:
+
+<br><br>
+
+[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](paypal.me/EduardoDelaCruzRojas)
