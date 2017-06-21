@@ -15,7 +15,7 @@ export class CsFileChooserController {
 		this._subscriber = new EventEmitter<string[]>();
 	}
 
-	openCsFileChoooser(options?: ICsOptionsFile): Observable<String[]> {
+	openCsFileChoooser(options?: ICsOptionsFile): Observable<any> {
 		return Observable.create(observable => {
 			let modal = this._modalCtrl.create(CsFileChooserPage, options);
 			modal.onDidDismiss(data => {

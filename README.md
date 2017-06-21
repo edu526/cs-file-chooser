@@ -42,7 +42,7 @@ export class AppModule {}
 
 ### openCsFileChoooser
 ```ts
-openCsFileChoooser(options?: ICsOptionsFile): Observable<String[]>
+openCsFileChoooser(options?: ICsOptionsFile): Observable<any>
 ```
 #### OPTIONS
 
@@ -58,10 +58,15 @@ Param | Type | Description | Default
 
 ### Return
 
-#### `String[]`
+#### `Object`
+```json
+{
+  nativeURLs: [...]
+}
+```
 Array of nativeURLs (String)
 # Examples
-## Simple Example 
+## Simple Example
 ```ts
 import { Component } from '@angular/core';
 import { CsFileChooserController } from 'cs-file-chooser';
