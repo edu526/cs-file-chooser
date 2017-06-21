@@ -79,24 +79,31 @@ export class CsFileChooserProvider {
 			});
 		}
 
-		directories.map(directory => this._getThumbnail(directory))
+		directories.map(directory => this._getThumbnail(directory, options))
 
 		return directories;
 	}
 
-	private _getThumbnail(data: ICsLocalStorageFile): ICsLocalStorageFile {
+	private _getThumbnail(data: ICsLocalStorageFile, options: ICsOptionsFile): ICsLocalStorageFile {
 		if (data.isDirectory) data.thumbnail = `${this.thumbnailDirectory}folder.svg`;
 		else {
 			let extTmp = this._getExtensionFile(data.name);
 			let isImage = this._imagesExt.findIndex(ext => ext.toLowerCase() === extTmp.substring(0, ext.length).toLowerCase());
-			// if (isImage < 0) {
-			let ext = this._thumbnailsExt.find(thumbnailExt => thumbnailExt.toLowerCase() === extTmp.substring(0, thumbnailExt.length).toLowerCase());
-			if (ext) data.thumbnail = `${this.thumbnailDirectory}${ext}.svg`;
-			else data.thumbnail = `${this.thumbnailDirectory}unknown.svg`;
-			// } else {
-			// 	data.thumbnail = data.nativeURL;
-			// }
-			// data.lazyLoad =`${this.thumbnailDirectory}${extTmp}.svg`;
+
+			if (options.previewImage) {
+				if (isImage < 0) {
+					let ext = this._thumbnailsExt.find(thumbnailExt => thumbnailExt.toLowerCase() === extTmp.substring(0, thumbnailExt.length).toLowerCase());
+					if (ext) data.thumbnail = `${this.thumbnailDirectory}${ext}.svg`;
+					else data.thumbnail = `${this.thumbnailDirectory}unknown.svg`;
+				} else {
+					data.thumbnail = data.nativeURL;
+				}
+				data.lazyLoad = `${this.thumbnailDirectory}${extTmp}.svg`;
+			} else {
+				let ext = this._thumbnailsExt.find(thumbnailExt => thumbnailExt.toLowerCase() === extTmp.substring(0, thumbnailExt.length).toLowerCase());
+				if (ext) data.thumbnail = `${this.thumbnailDirectory}${ext}.svg`;
+				else data.thumbnail = `${this.thumbnailDirectory}unknown.svg`;
+			}
 		}
 		return data;
 	}

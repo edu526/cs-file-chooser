@@ -1,6 +1,6 @@
 {
 	"name": "cs-file-chooser",
-	"version": "0.0.27",
+	"version": "0.0.28",
 	"description": "Select any type of files from your phone.",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",

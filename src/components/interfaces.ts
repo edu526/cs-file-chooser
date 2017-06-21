@@ -51,4 +51,8 @@ export interface ICsOptionsFile {
 	 * Show files by type: grid - list. Default GRID
 	 */
 	type?: string;
+	/**
+	 * Show preview image. Default False [DEV]
+	 */
+	previewImage?: boolean;
 }

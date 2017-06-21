@@ -55,11 +55,12 @@ Param | Type | Description | Default
 `whiteList` | String[] | Allow extensions. | `[]`
 `blackList` | String[] |Deny extensions. | `[]`
 `type` | String | Show files: `'grid'`, `'list'`. | `grid`
+`previewImage` | boolean | Show preview image. [DEV] | `false`
 
 ### Return
 
 #### `Object`
-```json
+```ts
 {
   nativeURLs: [...]
 }
