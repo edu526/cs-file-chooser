@@ -20,6 +20,7 @@ export class CsFileChooserPage {
 	selectedFileItems: string[] = [];
 	isRoot: boolean = true;
 	mode: string;
+	colorToolbar: string;
 	private _historyPosition: number[] = [];
 	private _tmpPosition: number = 0;
 	private _backDirectory: string = '/';
@@ -36,6 +37,7 @@ export class CsFileChooserPage {
 		this._options = this._navParams.data || {};
 		this._options.type = this._options.type || 'grid'
 		this.mode = this._options.type;
+		this.colorToolbar = this._options.colorToolbar || 'primary'
 	}
 
 	ngOnInit() {
@@ -136,7 +138,7 @@ export class CsFileChooserPage {
 export function getTemplate() {
 	return `
 		<ion-header>
-			<ion-toolbar color="primary">
+			<ion-toolbar [color]="colorToolbar">
 				<ion-buttons *ngIf="!isRoot" left><button ion-button icon-only (click)="backDirectory()"><ion-icon name="arrow-back"></ion-icon></button></ion-buttons>
 				<ion-buttons
 				end><button class="cs-button-actions" ion-button (click)="close()">Cancel</button><button class="cs-button-actions" ion-button
@@ -151,7 +153,7 @@ export function getTemplate() {
 			<ion-list *ngIf="mode === 'list'">
 				<ion-item *ngFor="let file of files, let i = index" (click)="fileSelected(file)">{{ scrollBotton(i) }}
 					<ion-thumbnail item-start><img [src]="file.thumbnail || ''"></ion-thumbnail>
-					<h2>{{ file.name }}</h2><span class="cs-selected" *ngIf="file.isSelected"><ion-icon class="cs-icon" name="checkmark" color="light"></ion-icon></span></ion-item>
+					<h2>{{ file.name }}</h2><span class="cs-selected" *ngIf="file.isSelected"><ion-icon class="cs-icon" name="checkmark"></ion-icon></span></ion-item>
 			</ion-list>
 		</ion-content>
 `

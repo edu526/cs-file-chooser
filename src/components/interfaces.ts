@@ -55,4 +55,8 @@ export interface ICsOptionsFile {
 	 * Show preview image. Default False [DEV]
 	 */
 	previewImage?: boolean;
+	/**
+	 * Color Toolbar. Default 'primary'
+	 */
+	colorToolbar?: string;
 }
