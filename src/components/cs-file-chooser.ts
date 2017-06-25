@@ -21,6 +21,7 @@ export class CsFileChooserPage {
 	isRoot: boolean = true;
 	mode: string;
 	colorToolbar: string;
+	onlyDocuments: boolean;
 	private _historyPosition: number[] = [];
 	private _tmpPosition: number = 0;
 	private _backDirectory: string = '/';
@@ -34,15 +35,27 @@ export class CsFileChooserPage {
 		private _navParams: NavParams,
 		private _popoverCtrl: PopoverController
 	) {
+	}
+	ngOnInit() {
+		this._getParams();
+		if (!this._options.onlyDocuments) this._openDirectory();
+		else {
+			this._fileSrv.documentsObserver
+				.subscribe(file => {
+					if (file) this.files.push(file);
+				});
+			this._documentsDirectory();
+		}
+
+		this._platform.registerBackButtonAction(() => this.backDirectory());
+	}
+
+	private _getParams() {
 		this._options = this._navParams.data || {};
 		this._options.type = this._options.type || 'grid'
 		this.mode = this._options.type;
 		this.colorToolbar = this._options.colorToolbar || 'primary'
-	}
-
-	ngOnInit() {
-		this._openDirectory();
-		this._platform.registerBackButtonAction(() => this.backDirectory());
+		this.onlyDocuments = this._options.onlyDocuments;
 	}
 
 	ngAfterViewInit() {
@@ -133,16 +146,32 @@ export class CsFileChooserPage {
 				this.isSelected();
 			});
 	}
+
+	private _documentsDirectory(): void {
+		this._fileSrv.getDocuments(this._options);
+	}
 }
 
 export function getTemplate() {
 	return `
 		<ion-header>
 			<ion-toolbar [color]="colorToolbar">
-				<ion-buttons *ngIf="!isRoot" left><button ion-button icon-only (click)="backDirectory()"><ion-icon name="arrow-back"></ion-icon></button></ion-buttons>
-				<ion-buttons
-				end><button class="cs-button-actions" ion-button (click)="close()">Cancel</button><button class="cs-button-actions" ion-button
-					(click)="done()">Done</button><button ion-button icon-only (click)="openOptions($event)"><ion-icon name="more"></ion-icon></button></ion-buttons>
+				<ion-buttons *ngIf="!isRoot" left>
+					<button ion-button icon-only (click)="backDirectory()">
+						<ion-icon name="arrow-back"></ion-icon>
+					</button>
+				</ion-buttons>
+				<ion-buttons end>
+					<button class="cs-button-actions" ion-button (click)="close()">
+						Cancel
+					</button>
+					<button class="cs-button-actions" ion-button (click)="done()">
+						Done
+					</button>
+					<button ion-button icon-only (click)="openOptions($event)" *ngIf="!onlyDocuments">
+						<ion-icon name="more"></ion-icon>
+					</button>
+				</ion-buttons>
 			</ion-toolbar>
 		</ion-header>
 		<ion-content class="cs-content" #CsScroll>

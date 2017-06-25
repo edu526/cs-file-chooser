@@ -1,11 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { File } from '@ionic-native/file';
 import { Platform } from 'ionic-angular';
+import { Observable } from 'rxjs/Rx';
 
 import { ICsLocalStorageFile, ICsOptionsFile } from './../components/interfaces';
 
 @Injectable()
 export class CsFileChooserProvider {
+
+	thumbnailDirectory = "./assets/file-chooser/";
+	documentsObserver: EventEmitter<ICsLocalStorageFile> = new EventEmitter<ICsLocalStorageFile>();
 
 	private _thumbnailsExt: String[] = [
 		'7z', 'ai', 'archive', 'arj', 'avi', 'css',
@@ -14,18 +18,20 @@ export class CsFileChooserProvider {
 		'mdf', 'mp3', 'mp4', 'nrg', 'pdf', 'png',
 		'ppt', 'psd', 'rar', 'rtf', 'svg', 'text',
 		'tiff', 'txt', 'unknown', 'xls', 'xml', 'zip'
-	]
+	];
 
 	private _imagesExt = ['jpg', 'png', 'jpeg', 'svg'];
-
-	thumbnailDirectory = "./assets/file-chooser/";
+	private _documentsExt = [
+		'doc', 'docs', 'html', 'htm',
+		'odt', 'pdf', 'xls', 'xlxs',
+		'ods', 'ppt', 'pptx', 'txt'
+	];
 
 	constructor(
 		private _file: File,
 		private _platform: Platform
 	) {
 	}
-
 
 	getDirectory(dirName: string, options?: ICsOptionsFile): Promise<ICsLocalStorageFile[]> {
 		dirName = dirName || '';
@@ -36,15 +42,15 @@ export class CsFileChooserProvider {
 		else if (this._platform.is('ios')) path = this._file.documentsDirectory;
 
 		return this._file.listDir(path, dirName)
-			.then((directories: ICsLocalStorageFile[]) => this._formatData(directories, options));
+			.then((directories: ICsLocalStorageFile[]) => this._formatDatas(directories, options));
 	}
 
-	backDirectory(currentDir: string, properties?: ICsOptionsFile): Promise<any> {
+	backDirectory(currentDir: string, options?: ICsOptionsFile): Promise<any> {
 		if (currentDir.charAt(currentDir.length - 1) === '/') currentDir = currentDir.substring(0, currentDir.length - 1);
 		let index = currentDir.lastIndexOf("/");
 		let backDir = currentDir.substring(0, index + 1);
 
-		return this.getDirectory(backDir, properties)
+		return this.getDirectory(backDir, options)
 			.then(files => {
 				return {
 					files,
@@ -53,27 +59,61 @@ export class CsFileChooserProvider {
 			});
 	}
 
-	private _formatData(directories: ICsLocalStorageFile[], options: ICsOptionsFile): ICsLocalStorageFile[] {
+	documents: any[] = [];
+	promises: any[] = [];
+
+	getDocuments(options: ICsOptionsFile) {
+		let paths = [
+			this._file.dataDirectory,
+			this._file.documentsDirectory,
+			this._file.externalRootDirectory,
+			this._file.externalDataDirectory,
+			this._file.sharedDirectory,
+			this._file.syncedDataDirectory
+		];
+		paths.forEach(path => {
+			if (path) this._addFileEntry(path, '', options);
+		});
+	}
+
+	private _addFileEntry(path: string, dirName: string = '', options: ICsOptionsFile) {
+		dirName = dirName || '';
+		if (dirName.charAt(0) === '/') dirName = dirName.substr(1);
+
+		if (dirName.indexOf('com.') === -1 && dirName.indexOf('org.') === -1) {
+			this._file.listDir(path, dirName)
+				.then(entries => {
+					entries.forEach(entrie => {
+						if (entrie.isDirectory) this._addFileEntry(path, entrie.fullPath, options);
+						else {
+							let tmp = this._getExtensionFile(entrie.name);
+							let index = this._documentsExt.findIndex(ext => tmp === ext);
+							if (index > -1) this.documentsObserver.next(this._getThumbnail(entrie, options));
+						}
+					});
+				}).catch(error => console.log(error))
+		}
+	}
+
+	private _formatDatas(directories: ICsLocalStorageFile[], options: ICsOptionsFile): ICsLocalStorageFile[] {
 		options.blackList = options.blackList || [];
 		options.whiteList = options.whiteList || [];
 
 		if (!options.showHiddenFiles) directories = directories.filter(data => data.name.charAt(0) !== '.');
-
-		if (options.blackList.length) {
-			directories = directories.filter(data => {
-				if (data.isFile) {
-					let index = options.blackList.findIndex(ext => ext === this._getExtensionFile(data.name));
-					return (index < 0);
-				}
-				else return true;
-			});
-		}
 
 		if (options.whiteList.length) {
 			directories = directories.filter(data => {
 				if (data.isFile) {
 					let index = options.whiteList.findIndex(ext => ext === this._getExtensionFile(data.name));
 					return (index > -1);
+				}
+				else return true;
+			});
+		} else if (options.blackList.length) {
+			directories = directories.filter(data => {
+				if (data.isFile) {
+					let index = options.blackList.findIndex(ext => ext === this._getExtensionFile(data.name));
+					return (index < 0);
 				}
 				else return true;
 			});
@@ -109,6 +149,7 @@ export class CsFileChooserProvider {
 	}
 
 	private _getExtensionFile(url: string): string {
-		return url.split('.').pop();
+		let i = url.split('.').length;
+		return (i > 1) ? url.split('.').pop() : '';
 	}
 }

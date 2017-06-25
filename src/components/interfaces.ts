@@ -40,7 +40,7 @@ export interface ICsOptionsFile {
 	 */
 	maxFiles?: number;
 	/**
-	 * Allow extensions
+	 * Allow extensions. Higher priority than blacklist
 	 */
 	whiteList?: string[];
 	/**
@@ -52,11 +52,15 @@ export interface ICsOptionsFile {
 	 */
 	type?: string;
 	/**
-	 * Show preview image. Default False [DEV]
+	 * Show preview image. Default false [DEV]
 	 */
 	previewImage?: boolean;
 	/**
 	 * Color Toolbar. Default 'primary'
 	 */
 	colorToolbar?: string;
+	/**
+	 * Show only documents files. Default false
+	 */
+	onlyDocuments?: boolean;
 }
