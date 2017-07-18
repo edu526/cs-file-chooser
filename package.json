@@ -7,7 +7,7 @@
 	"scripts": {
 		"ngc": "ngc",
 		"build": "gulp clean && npm run ngc && gulp copy-assets",
-		"start": "npm run build && npm publish",
+		"deploy": "npm run build && npm publish",
 		"postinstall": "gulp copy-user"
 	},
 	"repository": {
