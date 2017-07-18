@@ -51,10 +51,11 @@ _(optional)_ Advanced configuration.
 Param | Type | Description | Default
 --- | --- | --- | ---
 `showHiddenFiles` | boolean |Show hidden system files. | `false`
-`maxFiles` | number | Maximum number of selectable files. | `999`
+`maxFiles` | number | Maximum number of selectable files. | `30`
 `whiteList` | String[] | Allow extensions. | `[]`
 `blackList` | String[] |Deny extensions. | `[]`
 `type` | String | Show files: `'grid'`, `'list'`. | `grid`
+`onlyDocuments` | boolean |  Show only documents files. | `false`
 `previewImage` | boolean | Show preview image. [DEV] | `false`
 
 ### Return

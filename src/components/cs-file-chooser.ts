@@ -36,6 +36,7 @@ export class CsFileChooserPage {
 		private _popoverCtrl: PopoverController
 	) {
 	}
+
 	ngOnInit() {
 		this._getParams();
 		if (!this._options.onlyDocuments) this._openDirectory();
@@ -68,7 +69,7 @@ export class CsFileChooserPage {
 
 			let index = this.files.findIndex(file => file.nativeURL === fileSelected.nativeURL);
 			if (!this.files[index].isSelected) {
-				if (this.selectedFileItems.length < (this._options.maxFiles || 999)) {
+				if (this.selectedFileItems.length < (this._options.maxFiles || 30)) {
 					this.files[index].isSelected = true;
 					this.selectedFileItems.push(this.files[index].nativeURL);
 				}

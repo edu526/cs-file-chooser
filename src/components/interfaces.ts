@@ -36,7 +36,7 @@ export interface ICsOptionsFile {
 	 */
 	showHiddenFiles?: boolean;
 	/**
-	 * Maximum number of selectable files. Default: 999
+	 * Maximum number of selectable files. Default: 30
 	 */
 	maxFiles?: number;
 	/**
