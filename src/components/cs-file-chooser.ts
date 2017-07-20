@@ -1,6 +1,6 @@
 import { CsFileChooserPopover } from './cs-file-chooser.popover';
 import { CsFileChooserProvider } from './../providers/cs-file-chooser.provider';
-import { ICsLocalStorageFile, ICsOptionsFile } from './interfaces';
+import { ICsLocalStorageFile, ICsOptionsFile, ISelectedFile } from './interfaces';
 import { Component, ViewChild, HostListener } from '@angular/core';
 import { ViewController, Platform, NavParams, Content, PopoverController } from 'ionic-angular';
 
@@ -17,7 +17,7 @@ export class CsFileChooserPage {
 	currentDirectory: string = "/";
 
 	files: ICsLocalStorageFile[] = [];
-	selectedFileItems: string[] = [];
+	selectedFileItems: ISelectedFile[] = [];
 	isRoot: boolean = true;
 	mode: string;
 	colorToolbar: string;
@@ -43,6 +43,7 @@ export class CsFileChooserPage {
 		else {
 			this._fileSrv.documentsObserver
 				.subscribe(file => {
+					console.log(file)
 					if (file) this.files.push(file);
 				});
 			this._documentsDirectory();
@@ -71,12 +72,15 @@ export class CsFileChooserPage {
 			if (!this.files[index].isSelected) {
 				if (this.selectedFileItems.length < (this._options.maxFiles || 30)) {
 					this.files[index].isSelected = true;
-					this.selectedFileItems.push(this.files[index].nativeURL);
+					this.selectedFileItems.push({
+						nativeURL: fileSelected.nativeURL,
+						metadata: fileSelected.metadata
+					});
 				}
 			}
 			else {
 				this.files[index].isSelected = false;
-				let ind = this.selectedFileItems.findIndex(file => file === fileSelected.nativeURL);
+				let ind = this.selectedFileItems.findIndex(file => file.nativeURL === fileSelected.nativeURL);
 				this.selectedFileItems.splice(ind, 1);
 			}
 		} else {
@@ -89,7 +93,7 @@ export class CsFileChooserPage {
 
 	isSelected(): void {
 		this.files.forEach(file => {
-			let item = this.selectedFileItems.find(url => url === file.nativeURL);
+			let item = this.selectedFileItems.find(selected => selected.nativeURL === selected.nativeURL);
 			file.isSelected = (item) ? true : false;
 		})
 	}

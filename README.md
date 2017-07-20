@@ -63,10 +63,19 @@ Param | Type | Description | Default
 #### `Object`
 ```ts
 {
-  nativeURLs: [...]
+  nativeURLs: [
+    {
+      metadata:{
+        size: Number,
+        typeSize: String,
+        mimeType: String
+	  },
+      nativeUrl: String
+    }
+  ]
 }
 ```
-Array of nativeURLs (String)
+Array of nativeURLs (ISelectedFile[])
 # Examples
 ## Simple Example
 ```ts
@@ -131,6 +140,6 @@ export class TestPage {
 ## Support this project
 If you find this project useful, please star the repo to let people know that it's reliable. Also, share it with friends and colleagues that might find this useful as well. Thank you :smile:
 
-<br><br>
+<br>
 
 [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/EduardoDelaCruzRojas)

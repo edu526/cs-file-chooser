@@ -29,6 +29,7 @@ export interface ICsLocalStorageFile {
      */
 	isSelected?: boolean;
 	lazyLoad?: string;
+	metadata?: IMetadata;
 }
 export interface ICsOptionsFile {
 	/**
@@ -63,4 +64,15 @@ export interface ICsOptionsFile {
 	 * Show only documents files. Default false
 	 */
 	onlyDocuments?: boolean;
+}
+
+export interface ISelectedFile {
+	nativeURL: string;
+	metadata: IMetadata;
+}
+
+export interface IMetadata {
+	size: number;
+	sizeType: string;
+	mimeType: string;
 }

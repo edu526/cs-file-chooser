@@ -1,53 +1,55 @@
 {
-	"name": "cs-file-chooser",
-	"version": "1.0.0",
-	"description": "Select any type of files from your phone.",
-	"main": "dist/index.js",
-	"typings": "dist/index.d.ts",
-	"scripts": {
-		"ngc": "ngc",
-		"build": "gulp clean && npm run ngc && gulp copy-assets",
-		"deploy": "npm run build && npm publish",
-		"postinstall": "gulp copy-user"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/edu526/cs-file-chooser.git"
-	},
-	"keywords": [
-		"ionic3",
-		"file",
-		"chooser",
-		"angular2",
-		"angular4"
-	],
-	"author": "Eduardo Miguel De la Cruz Rojas",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/edu526/cs-file-chooser/issues"
-	},
-	"homepage": "https://github.com/edu526/cs-file-chooser#readme",
-	"devDependencies": {
-		"@angular/common": "4.2.2",
-		"@angular/compiler": "4.2.2",
-		"@angular/compiler-cli": "4.2.2",
-		"@angular/core": "4.2.2",
-		"@angular/forms": "4.2.2",
-		"@angular/http": "4.2.2",
-		"@angular/platform-browser": "4.2.2",
-		"@ionic-native/core": "^3.12.1",
-		"@ionic-native/file": "^3.12.1",
-		"ionic-angular": "3.3.0",
-		"typescript": "2.3.4",
-		"rxjs": "5.4.0",
-		"zone.js": "0.8.12"
-	},
-	"dependencies": {
-		"del": "^2.2.2",
-		"gulp": "^3.9.1",
-		"@ionic-native/file": "^3.6.1"
-	},
-	"peerDependencies": {
-		"@ionic-native/file": "^3.6.1"
-	}
+  "name": "cs-file-chooser",
+  "version": "1.0.1",
+  "description": "Select any type of files from your phone.",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "ngc": "ngc",
+    "build": "gulp clean && npm run ngc && gulp copy-assets",
+    "deploy": "npm run build && npm publish",
+    "postinstall": "gulp copy-user"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edu526/cs-file-chooser.git"
+  },
+  "keywords": [
+    "ionic3",
+    "file",
+    "chooser",
+    "angular2",
+    "angular4"
+  ],
+  "author": "Eduardo Miguel De la Cruz Rojas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edu526/cs-file-chooser/issues"
+  },
+  "homepage": "https://github.com/edu526/cs-file-chooser#readme",
+  "devDependencies": {
+    "@angular/common": "4.2.2",
+    "@angular/compiler": "4.2.2",
+    "@angular/compiler-cli": "4.2.2",
+    "@angular/core": "4.2.2",
+    "@angular/forms": "4.2.2",
+    "@angular/http": "4.2.2",
+    "@angular/platform-browser": "4.2.2",
+    "@ionic-native/core": "^3.12.1",
+    "@ionic-native/file": "^3.12.1",
+    "ionic-angular": "3.3.0",
+    "typescript": "2.3.4",
+    "rxjs": "5.4.0",
+    "zone.js": "0.8.12"
+  },
+  "dependencies": {
+    "@ionic-native/file": "^3.6.1",
+    "byte-converter": "^0.1.4",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "mime-types": "^2.1.15"
+  },
+  "peerDependencies": {
+    "@ionic-native/file": "^3.6.1"
+  }
 }

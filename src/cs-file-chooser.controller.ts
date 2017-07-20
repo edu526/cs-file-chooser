@@ -7,13 +7,9 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class CsFileChooserController {
 
-	private _subscriber: EventEmitter<string[]>;
-
 	constructor(
 		private _modalCtrl: ModalController
-	) {
-		this._subscriber = new EventEmitter<string[]>();
-	}
+	) {}
 
 	openCsFileChoooser(options?: ICsOptionsFile): Observable<any> {
 		return Observable.create(observable => {

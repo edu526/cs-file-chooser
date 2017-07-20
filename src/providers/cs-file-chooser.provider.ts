@@ -4,6 +4,10 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
 
 import { ICsLocalStorageFile, ICsOptionsFile } from './../components/interfaces';
+import * as byteConverter from 'byte-converter';
+import * as mime from 'mime-types';
+
+var converter = byteConverter.converterBase2;
 
 @Injectable()
 export class CsFileChooserProvider {
@@ -88,7 +92,18 @@ export class CsFileChooserProvider {
 						else {
 							let tmp = this._getExtensionFile(entrie.name);
 							let index = this._documentsExt.findIndex(ext => tmp === ext);
-							if (index > -1) this.documentsObserver.next(this._getThumbnail(entrie, options));
+							if (index > -1) {
+								entrie.getMetadata((metaData: any) => {
+									metaData = {
+										size: Number(converter(metaData.size, 'B', 'MB')),
+										sizeType: 'MB',
+										mimeType: mime.lookup(entrie.name)
+									};
+									let file = this._getThumbnail(entrie, options);
+									file.metadata = metaData;
+									this.documentsObserver.next(file);
+								});
+							}
 						}
 					});
 				}).catch(error => console.log(error))
