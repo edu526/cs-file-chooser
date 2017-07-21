@@ -4,14 +4,12 @@ import { ICsLocalStorageFile, ICsOptionsFile, ISelectedFile } from './interfaces
 import { Component, ViewChild, HostListener } from '@angular/core';
 import { ViewController, Platform, NavParams, Content, PopoverController } from 'ionic-angular';
 
-
 @Component({
 	selector: 'cs-file-chooser-page',
 	template: getTemplate(),
 	styles: getStyles()
 })
 export class CsFileChooserPage {
-
 
 	@ViewChild('CsScroll') content: Content;
 	currentDirectory: string = "/";
@@ -43,7 +41,6 @@ export class CsFileChooserPage {
 		else {
 			this._fileSrv.documentsObserver
 				.subscribe(file => {
-					console.log(file)
 					if (file) this.files.push(file);
 				});
 			this._documentsDirectory();
@@ -114,6 +111,11 @@ export class CsFileChooserPage {
 	}
 
 	done() {
+		this.selectedFileItems = this.selectedFileItems.map(file => {
+			file.nativeURL = this._fileSrv.decodeURIComponent(file.nativeURL);
+			return file;
+		});
+
 		this._viewCtrl.dismiss({ nativeURLs: this.selectedFileItems });
 	}
 

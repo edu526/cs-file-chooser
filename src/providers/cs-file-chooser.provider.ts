@@ -31,6 +31,11 @@ export class CsFileChooserProvider {
 		'ods', 'ppt', 'pptx', 'txt'
 	];
 
+	private _videosExt = [
+		'avi', 'mpeg', 'mov', 'wmv',
+		'mp4', 'flv', '3gp'
+	];
+
 	constructor(
 		private _file: File,
 		private _platform: Platform
@@ -80,10 +85,14 @@ export class CsFileChooserProvider {
 		});
 	}
 
+	decodeURIComponent(url: string) {
+		return decodeURIComponent(url);
+	}
+
 	private _addFileEntry(path: string, dirName: string = '', options: ICsOptionsFile) {
 		dirName = dirName || '';
 		if (dirName.charAt(0) === '/') dirName = dirName.substr(1);
-
+		if (options.whiteList[0] === 'video') this._documentsExt = this._videosExt;
 		if (dirName.indexOf('com.') === -1 && dirName.indexOf('org.') === -1) {
 			this._file.listDir(path, dirName)
 				.then(entries => {
@@ -95,7 +104,7 @@ export class CsFileChooserProvider {
 							if (index > -1) {
 								entrie.getMetadata((metaData: any) => {
 									metaData = {
-										size: Number(converter(metaData.size, 'B', 'MB')),
+										size: converter(metaData.size, 'B', 'MB'),
 										sizeType: 'MB',
 										mimeType: mime.lookup(entrie.name)
 									};
@@ -115,7 +124,6 @@ export class CsFileChooserProvider {
 		options.whiteList = options.whiteList || [];
 
 		if (!options.showHiddenFiles) directories = directories.filter(data => data.name.charAt(0) !== '.');
-
 		if (options.whiteList.length) {
 			directories = directories.filter(data => {
 				if (data.isFile) {

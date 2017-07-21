@@ -30,6 +30,7 @@ export interface ICsLocalStorageFile {
 	isSelected?: boolean;
 	lazyLoad?: string;
 	metadata?: IMetadata;
+	getMetadata?: any;
 }
 export interface ICsOptionsFile {
 	/**
