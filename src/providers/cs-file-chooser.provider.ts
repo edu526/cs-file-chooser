@@ -92,7 +92,7 @@ export class CsFileChooserProvider {
 	private _addFileEntry(path: string, dirName: string = '', options: ICsOptionsFile) {
 		dirName = dirName || '';
 		if (dirName.charAt(0) === '/') dirName = dirName.substr(1);
-		if (options.whiteList[0] === 'video') this._documentsExt = this._videosExt;
+		if (options.whiteList) if (options.whiteList[0] === 'video') this._documentsExt = this._videosExt;
 		if (dirName.indexOf('com.') === -1 && dirName.indexOf('org.') === -1) {
 			this._file.listDir(path, dirName)
 				.then(entries => {
